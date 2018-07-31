@@ -18,7 +18,7 @@ static char			*str_sub(char const *s, size_t start, size_t len)
 	char	*small_str;
 
 	i = 0;
-	if (!(small_str = (char*)malloc(sizeof(char) * len + 1)))
+	if (!(small_str = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	while (i < len)
 	{
@@ -39,9 +39,12 @@ static size_t		count_words(char const *s, char c)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] == c && s[i + 1] != c)
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
 			count++;
-		i++;
+		while (s[i] && (s[i] != c))
+			i++;
 	}
 	return (count);
 }
@@ -55,7 +58,7 @@ char				**ft_strsplit(char const *s, char c)
 
 	i = 0;
 	j = 0;
-	if (!s || !(res = (char**)malloc(sizeof(char*) * count_words(s, c) + 1)))
+	if (!s || !(res = (char**)malloc(sizeof(char*) * (count_words(s, c) + 1))))
 		return (NULL);
 	while (s[i])
 	{

@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_double_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/30 12:21:25 by akulaiev          #+#    #+#             */
-/*   Updated: 2017/11/30 12:21:27 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/03/15 18:48:54 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/03/15 18:48:56 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void	ft_double_free(void **data, int num_lines)
 {
-	char	*str_n;
-	size_t	i;
-	size_t	indx;
+	int		i;
 
 	i = 0;
-	if (s != NULL && s[0] != '\0' &&
-	(str_n = (char*)malloc(sizeof(char) * len + 1)))
+	if (data)
 	{
-		if (len <= ft_strlen(s) && start <= ft_strlen(s))
+		while (i < num_lines && data[i])
 		{
-			indx = start + len;
-			while (start < indx)
-			{
-				str_n[i] = s[start];
-				i++;
-				start++;
-			}
-			str_n[i] = '\0';
-			return (str_n);
+			free(data[i]);
+			i++;
 		}
+		free(data);
+		data = NULL;
 	}
-	return (NULL);
 }

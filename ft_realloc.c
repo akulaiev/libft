@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/30 12:21:25 by akulaiev          #+#    #+#             */
-/*   Updated: 2017/11/30 12:21:27 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/03/01 19:21:37 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/03/01 19:21:38 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+char		*ft_realloc(char *line, size_t old, size_t new)
 {
-	char	*str_n;
-	size_t	i;
-	size_t	indx;
+	char *temp;
 
-	i = 0;
-	if (s != NULL && s[0] != '\0' &&
-	(str_n = (char*)malloc(sizeof(char) * len + 1)))
-	{
-		if (len <= ft_strlen(s) && start <= ft_strlen(s))
-		{
-			indx = start + len;
-			while (start < indx)
-			{
-				str_n[i] = s[start];
-				i++;
-				start++;
-			}
-			str_n[i] = '\0';
-			return (str_n);
-		}
-	}
-	return (NULL);
+	if ((new == 0 || new <= old) && line)
+		return (line);
+	if (!line)
+		return (ft_memalloc(new + 1));
+	temp = (char*)malloc(new + old + 1);
+	ft_strcpy(temp, line);
+	free(line);
+	return (temp);
 }

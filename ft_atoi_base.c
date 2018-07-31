@@ -1,28 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akulaiev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 19:48:29 by akulaiev          #+#    #+#             */
-/*   Updated: 2017/11/09 19:48:30 by akulaiev         ###   ########.fr       */
+/*   Created: 2018/03/01 18:30:05 by akulaiev          #+#    #+#             */
+/*   Updated: 2018/03/01 18:30:08 by akulaiev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int		ft_atoi(const char *str)
+static int	ft_help(char c)
 {
-	int i;
-	int temp;
-	int check;
+	int		diff;
+
+	if (c && c >= '0' && c <= '9')
+	{
+		diff = '0';
+		return (diff);
+	}
+	if (c && c >= 'A' && c <= 'F')
+	{
+		diff = '7';
+		return (diff);
+	}
+	if (c && c >= 'a' && c <= 'f')
+	{
+		diff = 'W';
+		return (diff);
+	}
+	return (0);
+}
+
+int			ft_atoi_base(const char *str, int base)
+{
+	int		i;
+	int		diff;
+	int		temp;
+	int		check;
 
 	i = 0;
 	temp = 0;
 	check = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v' || str[i] == '\f'
-	|| str[i] == '\r' || str[i] == ' ')
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -30,10 +50,10 @@ int		ft_atoi(const char *str)
 			check = 1;
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9' && str[i])
+	while ((diff = ft_help(str[i])))
 	{
-		temp *= 10;
-		temp += str[i] - '0';
+		temp *= base;
+		temp += str[i] - diff;
 		i++;
 	}
 	if (check)
